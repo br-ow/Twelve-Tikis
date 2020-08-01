@@ -247,11 +247,22 @@ var SummonItemUse = defineObject(BaseItemUse,
 		this._targetPos = itemTargetInfo.targetPos;
 		this._unit = itemTargetInfo.unit;
 		if (this._unit.getUnitType() === UnitType.PLAYER){
-			var TargetList = root.getBaseData().getPlayerList()
-			var i, targetUnit;
-			for (i = 0; i < TargetList.getCount(); i++){
-				if (TargetList.getData(i).getId() === itemTargetInfo.item.custom.UnitID){
-					targetUnit = TargetList.getData(i);
+			var MapInfo = root.getCurrentSession().getCurrentMapInfo()
+			var TargetList = MapInfo.getListFromUnitGroup(UnitGroup.ALLYEVENT)
+			var UnitList = root.getBaseData().getPlayerList()
+			var i, j
+			Temp = null;
+			for (j = 0; j < UnitList.getCount(); j++){
+				if (UnitList.getData(j).getId() === itemTargetInfo.item.custom.UnitID){
+					Temp = UnitList.getData(j);
+					break;
+				}
+			}
+			if (Temp !== null){
+				for (i = 0; i < TargetList.getCount(); i++){
+					if (TargetList.getData(i).getName() === Temp.getName()){
+						targetUnit = TargetList.getData(i)
+					}
 				}
 			}
 		}
