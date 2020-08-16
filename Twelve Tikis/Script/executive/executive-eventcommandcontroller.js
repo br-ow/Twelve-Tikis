@@ -45,15 +45,8 @@ var EventCommandController = {
 		// However, check if it allows to skip by calling isEventCommandSkipAllowed.
 		if (eventContainer.isEventCommandSkipAllowed() && !MessageViewControl.isBacklog() && (InputControl.isStartAction() || root.isEventSkipMode())) {
 			exitCode = eventContainer.mainEventCommand();
-			
-			// Set in a skip state.
-			// Don't call the CurrentMap.setTurnSkipMode(true).
-			root.setEventSkipMode(true);
-			
+			this._doEventSkipAction();
 			root.endEventCommand(exitCode);
-			
-			MessageViewControl.setHidden(false);
-			
 			return MoveResult.END;
 		}
 		
@@ -151,5 +144,14 @@ var EventCommandController = {
 		}
 		
 		return false;
+	},
+	
+	_doEventSkipAction: function() {
+		// Set in a skip state.
+		// Don't call the CurrentMap.setTurnSkipMode(true).
+		root.setEventSkipMode(true);
+		
+		MessageViewControl.setHidden(false);
+		MapLayer.setEffectMotion(null);	
 	}
 };

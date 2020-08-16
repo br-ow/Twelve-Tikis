@@ -162,11 +162,8 @@ var AnimeSimple = defineObject(BaseObject,
 			return false;
 		}
 		
-		if (this._animeData.getAnimeType() === AnimeType.MOTION) {
-			// Color is not changed for added effect sprites if the anime data is for motion.
-			if (this._animeData.getSpriteGraphicsType(this._motionId, frameIndex, i) !== GraphicsType.MOTION) {
-				return false;
-			}
+		if (this._animeData.getSpriteGraphicsType(this._motionId, frameIndex, i) !== GraphicsType.MOTION) {
+			return false;
 		}
 		
 		return true;

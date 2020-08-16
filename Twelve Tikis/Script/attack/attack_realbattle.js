@@ -211,8 +211,9 @@ var RealBattle = defineObject(BaseBattle,
 		// Return the progressed order.
 		this._order.prevOrder(); 
 		
-		if (unit === this._battlerRight.getUnit())
+		if (unit === this._battlerRight.getUnit()) {
 			return this._battlerRight;
+		}
 		
 		return this._battlerLeft;
 	},

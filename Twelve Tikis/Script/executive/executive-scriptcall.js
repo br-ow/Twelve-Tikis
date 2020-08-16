@@ -29,6 +29,7 @@ function ScriptCall_Reset()
 {
 	MessageViewControl.reset();
 	ConfigVolumeControl.setDefaultVolume();
+	MapLayer.setEffectMotion(null);
 }
 
 // It's called when loading a save file is completed.
