@@ -201,7 +201,7 @@ var BaseUnitParameter = defineObject(BaseObject,
 	},
 	
 	getUnitTotalParamBonus: function(unit, weapon) {
-		var i, count, objectFlag, skill;
+		var i, count, skill;
 		var d = 0;
 		var arr = [];
 		
@@ -214,10 +214,7 @@ var BaseUnitParameter = defineObject(BaseObject,
 		d += this._getItemBonus(unit, true);
 		
 		// Check the skill of parameter bonus.
-		// The weapon and the item set the direct parameter bonus,
-		// not the parameter bonus skill.
-		objectFlag = ObjectFlag.UNIT | ObjectFlag.CLASS | Object.STATE | ObjectFlag.TERRAIN;
-		arr = SkillControl.getSkillObjectArray(unit, weapon, SkillType.PARAMBONUS, '', objectFlag);
+		arr = SkillControl.getSkillObjectArray(unit, weapon, SkillType.PARAMBONUS, '', this._getParamBonusObjectFlag());
 		count = arr.length;
 		for (i = 0; i < count; i++) {
 			skill = arr[i].skill;
@@ -267,59 +264,15 @@ var BaseUnitParameter = defineObject(BaseObject,
 		}
 		
 		return d;
+	},
+	
+	_getParamBonusObjectFlag: function() {
+		// The weapon and the item set the direct parameter bonus,
+		// not the parameter bonus skill.
+		return ObjectFlag.UNIT | ObjectFlag.CLASS | ObjectFlag.STATE | ObjectFlag.TERRAIN;
 	}
 }
 );
-
-var ItemIdentityChecker = {
-	isItemReused: function(arr, item) {
-		var obj;
-		
-		if (item === null || item.isWeapon()) {
-			return false;
-		}
-		
-		if (!this._checkIdAndType(arr, item)) {
-			return false;
-		}
-		
-		obj = {};
-		obj.itemId = item.getId();
-		obj.weaponType = item.getWeaponType();
-		arr.push(obj);
-		
-		return true;
-	},
-	
-	_checkIdAndType: function(arr, item) {
-		var i, availableCount, typeId;
-		var count = arr.length;
-		var availableArray = [];
-		var itemId = item.getId();
-		var weaponType = item.getWeaponType();
-		
-		for (i = 0; i < count; i++) {
-			if (arr[i].itemId === itemId) {
-				return false;
-			}
-			
-			availableCount = arr[i].weaponType.getAvailableCount();
-			if (availableCount > 0 && arr[i].weaponType === weaponType) {
-				typeId = weaponType.getId();
-				if (typeof availableArray[typeId] === 'undefined') {
-					availableArray[typeId] = 1;
-				}
-				
-				if (availableArray[typeId] === availableCount) {
-					return false;
-				}
-				availableArray[typeId]++;
-			}
-		}
-		
-		return true;
-	}
-};
 
 var UnitParameter = {};
 

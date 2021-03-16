@@ -453,20 +453,33 @@ var AnimeMotion = defineObject(BaseObject,
 	},
 	
 	drawBackgroundAnime: function() {
-		var x, y, width, height;
+		var x, y, srcWidth, srcHeight, destWidth, destHeight;
 		var image = this._animeData.getBackgroundAnimeImage(this._motionId, this._frameIndex);
 		
 		if (image === null) {
 			return;
 		}
 		
-		width = image.getWidth();
-		height = image.getHeight();
-		x = Math.floor(root.getGameAreaWidth() / 2) - Math.floor(width / 2);
-		y = Math.floor(root.getGameAreaHeight() / 2) - Math.floor(height / 2);
+		srcWidth = image.getWidth();
+		srcHeight = image.getHeight();
+		
+		if (this._isBackgroundAnimeScaling()) {
+			destWidth = RealBattleArea.WIDTH;
+			destHeight = RealBattleArea.HEIGHT;
+			x = 0;
+			y = 0;
+		}
+		else {
+			destWidth = srcWidth;
+			destHeight = srcHeight;
+			x = Math.floor(root.getGameAreaWidth() / 2) - Math.floor(destWidth / 2);
+			y = Math.floor(root.getGameAreaHeight() / 2) - Math.floor(destHeight / 2);
+		}
+		
+		image.setReverse(this._isBackgroundAnimeReverse());
 		
 		image.setAlpha(this._animeData.getBackgroundAnimeAlpha(this._motionId, this._frameIndex));
-		image.drawStretchParts(x, y, width, height, 0, 0, width, height);
+		image.drawStretchParts(x, y, destWidth, destHeight, 0, 0, srcWidth, srcHeight);
 		
 		AnimePerformanceHelper.pickup(image, this);
 	},
@@ -863,6 +876,14 @@ var AnimeMotion = defineObject(BaseObject,
 		}
 		
 		return d;
+	},
+	
+	_isBackgroundAnimeScaling: function() {
+		return true;
+	},
+	
+	_isBackgroundAnimeReverse: function() {
+		return false;
 	}
 }
 );
@@ -872,6 +893,10 @@ var AnimeMotion = defineObject(BaseObject,
 var AnimePerformanceHelper = {
 	pickup: function (pic, animeMotion) {
 		var profiler;
+		
+		if (pic === null) {
+			return;
+		}
 		
 		// This condition is met if the animation is being used on the class change screen.
 		if (animeMotion === null) {

@@ -120,10 +120,31 @@ var UnitAllCommandEventCommand = defineObject(BaseEventCommand,
 			count = list.getCount();
 			for (j = 0; j < count; j++) {
 				targetUnit = list.getData(j);
-				if (!eventCommandData.isDataCondition(targetUnit)) {
-					continue;
+				if (eventCommandData.isDataCondition(targetUnit)) {
+					this._unitArray.push(targetUnit);
 				}
-				
+			}
+		}
+		
+		this._appendGuestUnit(filter, eventCommandData);
+	},
+	
+	_appendGuestUnit: function(filter, eventCommandData) {
+		var i, count, list, targetUnit;
+		
+		if (!(filter & UnitFilterFlag.PLAYER)) {
+			return;
+		}
+		
+		if (root.getBaseScene() !== SceneType.BATTLESETUP) {
+			return;
+		}
+		
+		list = root.getCurrentSession().getNonJoinedGuestList();
+		count = list.getCount();
+		for (i = 0; i < count; i++) {
+			targetUnit = list.getData(i);
+			if (eventCommandData.isDataCondition(targetUnit)) {
 				this._unitArray.push(targetUnit);
 			}
 		}

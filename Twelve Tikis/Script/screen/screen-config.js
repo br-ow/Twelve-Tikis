@@ -226,20 +226,12 @@ var ConfigScrollbar = defineObject(BaseScrollbar,
 var ConfigTextScrollbar = defineObject(BaseScrollbar,
 {	
 	drawScrollContent: function(x, y, object, isSelect, index) {
-		var range;
 		var length = -1;
 		var textui = root.queryTextUI('default_window');
-		var color = textui.getColor();
+		var color = this._getTextColor(index);
 		var font = textui.getFont();
+		var range = createRangeObject(x, y, this.getObjectWidth(), this.getObjectHeight());
 		
-		if (this.getParentInstance().getFlagValue() === index) {
-			color = ColorValue.KEYWORD;
-		}
-		else {
-			color = ColorValue.DISABLE;
-		}
-		
-		range = createRangeObject(x, y, this.getObjectWidth(), this.getObjectHeight());
 		TextRenderer.drawRangeText(range, TextFormat.CENTER, object, length, color, font);
 	},
 	
@@ -252,6 +244,16 @@ var ConfigTextScrollbar = defineObject(BaseScrollbar,
 	
 	getObjectHeight: function() {
 		return 38;
+	},
+	
+	_getTextColor: function(index) {
+		var color = ColorValue.DISABLE;
+		
+		if (this.getParentInstance().getFlagValue() === index) {
+			color = ColorValue.KEYWORD;
+		}
+		
+		return color;
 	}
 }
 );

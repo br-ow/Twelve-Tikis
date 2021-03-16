@@ -137,7 +137,7 @@ var Probability = {
 		// n is a value between 0 and 99.
 		n = this.getRandomNumber() % 100;
 		
-		return percent >= n;
+		return percent > n;
 	},
 	
 	getInvocationPercent: function(unit, type, value) {
@@ -1177,6 +1177,56 @@ var ClassChangeChecker = {
 		}
 		
 		return result;
+	}
+};
+
+var ItemIdentityChecker = {
+	isItemReused: function(arr, item) {
+		var obj;
+		
+		if (item === null || item.isWeapon()) {
+			return false;
+		}
+		
+		if (!this._checkIdAndType(arr, item)) {
+			return false;
+		}
+		
+		obj = {};
+		obj.itemId = item.getId();
+		obj.weaponType = item.getWeaponType();
+		arr.push(obj);
+		
+		return true;
+	},
+	
+	_checkIdAndType: function(arr, item) {
+		var i, availableCount, typeId;
+		var count = arr.length;
+		var availableArray = [];
+		var itemId = item.getId();
+		var weaponType = item.getWeaponType();
+		
+		for (i = 0; i < count; i++) {
+			if (arr[i].itemId === itemId) {
+				return false;
+			}
+			
+			availableCount = arr[i].weaponType.getAvailableCount();
+			if (availableCount > 0 && arr[i].weaponType === weaponType) {
+				typeId = weaponType.getId();
+				if (typeof availableArray[typeId] === 'undefined') {
+					availableArray[typeId] = 1;
+				}
+				
+				if (availableArray[typeId] === availableCount) {
+					return false;
+				}
+				availableArray[typeId]++;
+			}
+		}
+		
+		return true;
 	}
 };
 

@@ -25,6 +25,11 @@ var SaveCallEventCommand = defineObject(BaseEventCommand,
 	drawEventCommandCycle: function() {
 	},
 	
+	isEventCommandSkipAllowed: function() {
+		// Don't allow the skip by pressing the Start.
+		return false;
+	},
+	
 	_prepareEventCommandMemberData: function() {
 		this._loadSaveScreen = createObject(LoadSaveControl.getSaveScreenObject());
 	},

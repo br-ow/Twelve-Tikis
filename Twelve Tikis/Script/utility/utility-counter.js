@@ -139,7 +139,7 @@ var UnitCounter = defineObject(BaseObject,
 		var result = this._counter.moveCycleCounter();
 		
 		if (result !== MoveResult.CONTINUE) {
-			if (++this._unitAnimationIndex === 4) {
+			if (++this._unitAnimationIndex === this._getAnimationArray().length) {
 				this._unitAnimationIndex = 0;
 			}
 		}
@@ -155,9 +155,9 @@ var UnitCounter = defineObject(BaseObject,
 	},
 	
 	getAnimationIndex: function() {
-		var a = [0, 1, 2, 1];
+		var arr = this._getAnimationArray();
 		
-		return a[this._unitAnimationIndex];
+		return arr[this._unitAnimationIndex];
 	},
 	
 	getAnimationIndex2: function() {
@@ -176,6 +176,10 @@ var UnitCounter = defineObject(BaseObject,
 		}
 	
 		return index;
+	},
+	
+	_getAnimationArray: function() {
+		return [0, 1, 2, 1];
 	}
 }
 );

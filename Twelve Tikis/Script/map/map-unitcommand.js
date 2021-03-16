@@ -406,7 +406,7 @@ UnitCommand.PlaceCommand = defineObject(UnitListCommand,
 	isCommandDisplayable: function() {
 		var event = this._getEvent();
 		
-		return event !== null && event.isEvent() && event.getPlaceEventInfo().getPlaceCustomType() === PlaceCustomType.COMMAND;
+		return event !== null && event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE && event.getPlaceEventInfo().getPlaceCustomType() === PlaceCustomType.COMMAND;
 	},
 	
 	getCommandName: function() {

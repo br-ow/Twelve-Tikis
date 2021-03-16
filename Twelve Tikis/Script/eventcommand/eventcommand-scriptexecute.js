@@ -23,7 +23,9 @@ var ScriptExecuteEventCommand = defineObject(BaseEventCommand,
 	},
 	
 	drawEventCommandCycle: function() {
-		this._activeEventCommand.drawEventCommandCycle();
+		if (this._activeEventCommand !== null) {
+			this._activeEventCommand.drawEventCommandCycle();
+		}
 	},
 	
 	isEventCommandSkipAllowed: function() {

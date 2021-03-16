@@ -1227,9 +1227,15 @@ var MagicBattler = defineObject(BaseBattler,
 	},
 	
 	_createMagicEffect: function() {
-		var isRight;
 		var anime = this._getMagicAnime();
 		var pos = this._realBattle.getPassiveBattler().getEffectPos(anime);
+		
+		// Activate magic
+		this._magicEffect = this._realBattle.createEffect(anime, pos.x, pos.y, this._isMagicEffectRight(anime), true);
+	},
+	
+	_isMagicEffectRight: function(anime) {
+		var isRight;
 		
 		if (root.getAnimePreference().isEffectDefaultStyle()) {
 			isRight = this._realBattle.getActiveBattler() === this._realBattle.getBattler(true);
@@ -1238,8 +1244,7 @@ var MagicBattler = defineObject(BaseBattler,
 			isRight = this._realBattle.getPassiveBattler() === this._realBattle.getBattler(true);
 		}
 		
-		// Activate magic
-		this._magicEffect = this._realBattle.createEffect(anime, pos.x, pos.y, isRight, true);
+		return isRight;
 	},
 	
 	_getInvocationAnime: function() {

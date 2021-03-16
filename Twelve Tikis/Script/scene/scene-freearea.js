@@ -111,34 +111,10 @@ var FreeAreaScene = defineObject(BaseScene,
 	},
 	
 	_completeSceneMemberData: function() {
-		var handle;
-		var map = root.getCurrentSession().getCurrentMapInfo();
-		var type = root.getCurrentSession().getTurnType();
-		
 		// If this screen is displayed by loading the save file, exclude the starting turn process.
 		if (root.getSceneController().isActivatedFromSaveFile()) {
-			// When entering the new map, reset the previous map setting.
-			SceneManager.resetCurrentMap();
-			
-			MapHpControl.updateHpAll();
-			
-			// Restore the screen which may be painted.
-			SceneManager.setEffectAllRange(false);
-			
-			if (type === TurnType.PLAYER) {
-				handle = map.getPlayerTurnMusicHandle();
-				this.getTurnObject().setAutoCursorSave(true);
-			}
-			else if (type === TurnType.ALLY) {
-				handle = map.getAllyTurnMusicHandle();
-			}
-			else {
-				handle = map.getEnemyTurnMusicHandle();
-			}
-			
-			MediaControl.clearMusicCache();
-			MediaControl.musicPlayNew(handle);
-			
+			this._initializeNewMap();
+			this._playTurnMusic();
 			this._processMode(FreeAreaMode.MAIN);
 		}
 		else {
@@ -182,6 +158,39 @@ var FreeAreaScene = defineObject(BaseScene,
 	
 	_drawMain: function() {
 		this.getTurnObject().drawTurnCycle();
+	},
+	
+	_initializeNewMap: function() {
+		// When entering the new map, reset the previous map setting.
+		SceneManager.resetCurrentMap();
+		
+		MapHpControl.updateHpAll();
+		
+		// Restore the screen which may be painted.
+		SceneManager.setEffectAllRange(false);
+		
+		if (root.getCurrentSession().getTurnType() === TurnType.PLAYER) {
+			this.getTurnObject().setAutoCursorSave(true);
+		}
+	},
+	
+	_playTurnMusic: function() {
+		var handle;
+		var map = root.getCurrentSession().getCurrentMapInfo();
+		var type = root.getCurrentSession().getTurnType();
+		
+		if (type === TurnType.PLAYER) {
+			handle = map.getPlayerTurnMusicHandle();
+		}
+		else if (type === TurnType.ALLY) {
+			handle = map.getAllyTurnMusicHandle();
+		}
+		else {
+			handle = map.getEnemyTurnMusicHandle();
+		}
+		
+		MediaControl.clearMusicCache();
+		MediaControl.musicPlayNew(handle);
 	},
 	
 	_processMode: function(mode) {

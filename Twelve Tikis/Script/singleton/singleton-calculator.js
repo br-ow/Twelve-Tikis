@@ -622,7 +622,7 @@ var SupportCalculator = {
 				else if (skill.getRangeType() === SelectionRangeType.MULTI) {
 					indexArray = IndexArray.getBestIndexArray(unit.getMapX(), unit.getMapY(), 1, skill.getRangeValue());
 					// If it's "Specify", check if the unit exists at the position in arr.
-					isSet = IndexArray.findUnit(indexArray, targetUnit);		
+					isSet = IndexArray.findUnit(indexArray, targetUnit);
 				}
 			}
 			
@@ -658,6 +658,7 @@ var SupportCalculator = {
 	},
 	
 	_getListArray: function(unit) {
+		var listArray;
 		var filter = 0;
 		var unitType = unit.getUnitType();
 		
@@ -673,7 +674,24 @@ var SupportCalculator = {
 			// filter = UnitFilterFlag.PLAYER | UnitFilterFlag.ALLY;
 		}
 		
-		return FilterControl.getListArray(filter);
+		listArray = FilterControl.getListArray(filter);
+		this._appendGuestList(listArray, filter);
+		
+		return listArray;
+	},
+	
+	_appendGuestList: function(listArray, filter) {
+		var list, count;
+		
+		if (!(filter & UnitFilterFlag.PLAYER)) {
+			return;
+		}
+		
+		if (root.getBaseScene() !== SceneType.BATTLESETUP) {
+			return;
+		}
+		
+		listArray.push(root.getCurrentSession().getNonJoinedGuestList());
 	}
 };
 

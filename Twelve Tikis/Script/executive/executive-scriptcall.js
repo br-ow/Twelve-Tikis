@@ -29,7 +29,12 @@ function ScriptCall_Reset()
 {
 	MessageViewControl.reset();
 	ConfigVolumeControl.setDefaultVolume();
+	
 	MapLayer.setEffectMotion(null);
+	
+	AttackControl.setPreAttackObject(null);
+	
+	BattlerChecker.setUnit(null, null);
 }
 
 // It's called when loading a save file is completed.
@@ -166,6 +171,11 @@ function ScriptCall_NewCustomRenderer(unit)
 function ScriptCall_GetWeapon(unit)
 {
 	return ItemControl.getEquippedWeapon(unit);
+}
+
+function ScriptCall_isItemReused(checkerArray, item)
+{
+	return ItemIdentityChecker.isItemReused(checkerArray, item);
 }
 
 // It's called when checking if the item can be used with an event condition.
