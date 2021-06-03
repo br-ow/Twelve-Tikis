@@ -333,6 +333,9 @@ var ReleaseFusionAction = defineObject(BaseFusionAction,
 		else if (type === FusionReleaseType.ERASE) {
 			DamageControl.setReleaseState(this._slideUnit);
 		}
+		
+		// If the slide value is not initialized in this method, the display position of the unit will be shifted when the user skips.
+		this._slideObject.endSlide();
 	},
 	
 	_drawErase: function() {
