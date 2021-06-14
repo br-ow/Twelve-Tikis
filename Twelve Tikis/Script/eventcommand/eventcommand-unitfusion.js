@@ -216,6 +216,10 @@ var CatchFusionAction = defineObject(BaseFusionAction,
 	
 	skipFusionAction: function() {
 		this._doCatchAction();
+		
+		if (this._slideObject !== null) {
+			this._slideObject.endSlide();
+		}
 	},
 	
 	_doCatchAction: function() {
