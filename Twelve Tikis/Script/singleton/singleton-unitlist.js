@@ -138,6 +138,10 @@ var AllyList = {
 
 var TurnControl = {
 	turnEnd: function() {
+		if (root.getCurrentSession().getTurnType() === TurnType.PLAYER) {
+			SceneManager.getActiveScene().getTurnObject().clearTurnTargetUnit();
+		}
+		
 		// There is a possibility to be called from the event, call getBaseScene, not getCurrentScene.
 		if (root.getBaseScene() === SceneType.FREE) {
 			SceneManager.getActiveScene().turnEnd();
