@@ -45,6 +45,7 @@ Uses McMagister's Unit State Animator.
  1. R-drops-items.js
 
 Player Phase Animations, which adds a third choice to the Real Battle config option: show full animations only on player phase, and show map animations on other phases.
+Also lets user reverse the config option by holding Cycle (A/S keys, LB/RB buttons). Think "Hold L to Skip" from 3DS FE.
  1. R-player-only-battle.js
 
 Unit Roster, which adds new options to the map commands that allow you to view the full rosters of player, enemy, and ally units on the field, including plenty of information about all of them and allowing you to snap your cursor to a unit by selecting them in the menu.
@@ -52,6 +53,9 @@ Unit Roster, which adds new options to the map commands that allow you to view t
 
 Danger Skills, which shows icons for an enemy's dangerous skills in the combat forecast. See the file for more info.
  1. R-danger-skills.js
+
+Visualize Sortie. If a unit is not selected in battle prep, their name and charchip will be grayed out in Manage Items.
+ 1. R-visualize-sortie.js
 
 The plugins don't rely on each other, so you can pick and choose at your leisure, or use them all.
 This collection is just to keep all of these enhancements together.
@@ -72,3 +76,6 @@ UPDATE HISTORY (not comprehensive):
 4/14/2021: added player phase animations
 5/9/2021: added danger skills, new fnality for detailed easy battle
 5/18/2021: added unit roster
+6/14/2021: added visualize sortie
+8/15/2021: "Hold L to Skip" added to player phase anims
+8/28/2021: warning markers overhaul, cleaning & bugfixes
