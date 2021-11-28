@@ -200,7 +200,7 @@ CAState.ActionTarget = defineObject(CABaseState, {
 			this._targetSelection = createObject(SummonItemSelection);
 		}
 		else {
-			this._targetSelection = createObject(BaseItemSelection);
+			this._targetSelection = ItemPackageControl.getItemSelectionObject(this._item);
 		}
         var unit = this._parent.getCommandTarget(); 
         if (this._targetSelection.enterItemSelectionCycle(unit, this._item) == EnterResult.NOTENTER) {
